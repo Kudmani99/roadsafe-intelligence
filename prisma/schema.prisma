@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Report {
+  id           String   @id @default(cuid())
+  incidentType String
+  severity     String
+  vehicleType  String
+  carColor     String
+  licensePlate String?
+  location     String
+  borough      String   @default("Toronto")
+  latitude     Float
+  longitude    Float
+  dateTime     DateTime
+  description  String
+  anonymous    Boolean  @default(true)
+  reporterName String?
+  source       String   @default("user")
+  upvotes      Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  @@index([latitude, longitude])
+  @@index([borough])
+  @@index([severity])
+  @@index([createdAt])
+}
